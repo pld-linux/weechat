@@ -1,3 +1,9 @@
+#
+# TODO:
+# - translations (pl)
+# - consider doing subpackages for all those plugins (which one should be in main package ?)
+# - maybe some other BRs ?
+
 %bcond_without	aspell	# don't build aspell support
 %bcond_without	qt	# don't build qt support
 %bcond_without	ruby	# don't build ruby plugin support
