@@ -20,8 +20,6 @@ BuildRequires:	python-devel
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_noautostrip	%{_libdir}/weechat/plugins/*.a
-
 %description
 WeeChat (Wee Enhanced Environment for Chat) is a fast and light chat
 environment for many operating systems. Everything can be done with a keyboard.
@@ -45,17 +43,21 @@ It is customizable and extensible with scripts.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-#install -d $RPM_BUILD_ROOT{%{_pixmapsdir},%{_desktopdir}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+rm -f $RPM_BUILD_ROOT%{_libdir}/weechat/plugins/*.a
+
+%find_lang %{name}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*
-%dir %{_libdir}/weechat
-%attr(755,root,root) %{_libdir}/weechat/*.so*
-%{_libdir}/weechat/*.la
+%dir %{_libdir}/weechat/plugins
+%attr(755,root,root) %{_libdir}/weechat/plugins/*.so*
+%{_libdir}/weechat/plugins/*.la
+%{_mandir}/man1/*.1.gz
