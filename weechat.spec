@@ -1,5 +1,4 @@
 %bcond_without	qt	# don't build qt support
-%bcond_without	ncurses	# don't build ncurses support
 %bcond_without	ruby	# don't build ruby plugin support
 %bcond_without	lua	# don't build lua plugin support
 %bcond_without	perl	# don't build perl plugin support
@@ -10,7 +9,7 @@ Summary:	WeeChat
 Summary(pl.UTF-8):	WeeChat
 Name:		weechat
 Version:	0.2.3
-Release:	0.1
+Release:	0.2
 License:	GPL
 Group:		X11/Applications
 Source0:	http://weechat.flashtux.org/download/%{name}-%{version}.tar.bz2
@@ -18,7 +17,7 @@ Source0:	http://weechat.flashtux.org/download/%{name}-%{version}.tar.bz2
 URL:		http://weechat.flashtux.org/
 %{?with_lgnutls:BuildRequires:	gnutls-devel}
 %{?with_lua:BuildRequires:	lua-devel}
-%{?with_ncurses:BuildRequires:	ncurses-devel}
+BuildRequires:	ncurses-devel
 %{?with_perl:BuildRequires:	perl-devel}
 %{?with_python:BuildRequires:	python-devel}
 %{?with_qt:BuildRequires:	qt-devel}
@@ -45,7 +44,7 @@ It is customizable and extensible with scripts.
 	--enable-plugins \
 	--with-qt-libraries=%{_libdir} \
 	--%{?with_qt:en}%{!?with_qt:dis}able-qt \
-	--%{?with_ncurses:en}%{!?with_ncurses:dis}able-ncurses \
+	--enable-ncurses \
 	--%{?with_perl:en}%{!?with_perl:dis}able-perl \
 	--%{?with_python:en}%{!?with_python:dis}able-python \
 	--%{?with_ruby:en}%{!?with_ruby:dis}able-ruby \
