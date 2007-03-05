@@ -29,8 +29,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 WeeChat (Wee Enhanced Environment for Chat) is a fast and light chat
-environment for many operating systems. Everything can be done with a keyboard.
-It is customizable and extensible with scripts.
+environment for many operating systems. Everything can be done with a
+keyboard. It is customizable and extensible with scripts.
 
 #%description -l pl.UTF-8
 
@@ -75,4 +75,4 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/weechat/plugins
 %attr(755,root,root) %{_libdir}/weechat/plugins/*.so*
 %{_libdir}/weechat/plugins/*.la
-%{_mandir}/man1/*.1.gz
+%{_mandir}/man1/*.1*
