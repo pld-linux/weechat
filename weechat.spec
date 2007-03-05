@@ -7,10 +7,10 @@
 %bcond_without	gnutls	# don't build gnutls support
 
 Summary:	WeeChat
-Summary(pl.UTF-8):	WeeChat
+Summary(pl):	WeeChat
 Name:		weechat
 Version:	0.2.3
-Release:	0.3
+Release:	0.1
 License:	GPL
 Group:		X11/Applications
 Source0:	http://weechat.flashtux.org/download/%{name}-%{version}.tar.bz2
@@ -32,7 +32,7 @@ WeeChat (Wee Enhanced Environment for Chat) is a fast and light chat
 environment for many operating systems. Everything can be done with a
 keyboard. It is customizable and extensible with scripts.
 
-#%description -l pl.UTF-8
+#%description -l pl
 
 %prep
 %setup -q
