@@ -1,9 +1,9 @@
 #
 # TODO:
-# - translations (pl)
 # - consider doing subpackages for all those plugins (which one should be in main package ?)
 # - maybe some other BRs ?
-
+#
+# Conditional build:
 %bcond_without	aspell	# don't build aspell support
 %bcond_without	qt	# don't build qt support
 %bcond_without	ruby	# don't build ruby plugin support
@@ -11,9 +11,9 @@
 %bcond_without	perl	# don't build perl plugin support
 %bcond_without	python	# don't build python plugin support
 %bcond_without	gnutls	# don't build gnutls support
-
-Summary:	WeeChat
-Summary(pl.UTF-8):	WeeChat
+#
+Summary:	WeeChat - fast and light chat environment
+Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
 Version:	0.2.3
 Release:	0.3
@@ -22,7 +22,7 @@ Group:		X11/Applications
 Source0:	http://weechat.flashtux.org/download/%{name}-%{version}.tar.bz2
 # Source0-md5:	12c39b30988d78e9544acda6e518476f
 URL:		http://weechat.flashtux.org/
-%{?with_aspell:BuildRequires:  aspell-devel}
+%{?with_aspell:BuildRequires:	aspell-devel}
 %{?with_lgnutls:BuildRequires:	gnutls-devel}
 %{?with_lua:BuildRequires:	lua-devel}
 BuildRequires:	ncurses-devel
@@ -38,7 +38,11 @@ WeeChat (Wee Enhanced Environment for Chat) is a fast and light chat
 environment for many operating systems. Everything can be done with a
 keyboard. It is customizable and extensible with scripts.
 
-#%description -l pl.UTF-8
+%description -l pl.UTF-8
+WeeChat (Wee Ehanced Environment for Chat) to szybkie i lekkie
+środowisko do rozmów dla wielu systemów operacyjnych. Pozwala wszystko
+zrobić przy pomocy klawiatury. Jest konfigurowalne i rozszerzalne za
+pomocą skryptów.
 
 %prep
 %setup -q
