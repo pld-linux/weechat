@@ -53,6 +53,7 @@ pomocą skryptów.
 	--enable-libsuffix=64 \
 %endif
 	--%{?debug:en}%{!?debug:dis}able-debug%{?debug:=full} \
+	--disable-static \
 	--enable-plugins \
 	--with-qt-libraries=%{_libdir} \
 	--%{?with_qt:en}%{!?with_qt:dis}able-qt \
@@ -71,7 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/weechat/plugins/*.a
+rm -f $RPM_BUILD_ROOT%{_libdir}/weechat/plugins/*.la
 
 %find_lang %{name}
 
@@ -80,9 +81,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc README FAQ AUTHORS BUGS INSTALL NEWS TODO
+%doc AUTHORS BUGS FAQ NEWS README TODO
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/weechat/plugins
 %attr(755,root,root) %{_libdir}/weechat/plugins/*.so*
-%{_libdir}/weechat/plugins/*.la
 %{_mandir}/man1/*.1*
