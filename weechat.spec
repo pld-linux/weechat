@@ -4,7 +4,8 @@
 #
 # Conditional build:
 %bcond_without	aspell	# don't build aspell support
-%bcond_without	qt	# don't build qt support
+%bcond_without	gtk	# build gtk support
+%bcond_with	qt	# don't build qt support
 %bcond_without	ruby	# don't build ruby plugin support
 %bcond_without	lua	# don't build lua plugin support
 %bcond_without	perl	# don't build perl plugin support
@@ -27,6 +28,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	docbook-style-xsl
 %{?with_gnutls:BuildRequires:	gnutls-devel}
+%{?with_gtk:BuildRequires:	gtk+2-devel}
 %{?with_lua:BuildRequires:	lua-devel}
 BuildRequires:	ncurses-devel
 %{?with_perl:BuildRequires:	perl-devel}
@@ -34,6 +36,7 @@ BuildRequires:	ncurses-devel
 %{?with_qt:BuildRequires:	qt-devel}
 BuildRequires:	rpmbuild(macros) >= 1.129
 %{?with_ruby:BuildRequires:	ruby-devel}
+Requires:	%{name}-common = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -47,6 +50,21 @@ WeeChat (Wee Ehanced Environment for Chat) to szybkie i lekkie
 zrobić przy pomocy klawiatury. Jest konfigurowalne i rozszerzalne za
 pomocą skryptów.
 
+%package gtk
+Summary:	GTK WeeChat UI
+Group:		X11/Applications
+Requires:	%{name}-common = %{version}-%{release}
+
+%description gtk
+GTK WeeChat UI.
+
+%package common
+Summary:	WeeChat common files
+Group:		X11/Applications
+
+%description common
+WeeChat common files.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -59,6 +77,7 @@ sed -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.in
 %if "%{_lib}" == "lib64"
 	--enable-libsuffix=64 \
 %endif
+	--enable-threads=posix \
 	--with-doc-xsl-prefix=%{_datadir}/sgml/docbook/xsl-stylesheets \
 	--%{?debug:en}%{!?debug:dis}able-debug%{?debug:=full} \
 	--disable-static \
@@ -67,6 +86,7 @@ sed -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.in
 	--%{?with_qt:en}%{!?with_qt:dis}able-qt \
 	--enable-ncurses \
 	--%{?with_aspell:en}%{!?with_aspell:dis}able-aspell \
+	--%{?with_gtk:en}%{!?with_gtk:dis}able-gtk \
 	--%{?with_perl:en}%{!?with_perl:dis}able-perl \
 	--%{?with_python:en}%{!?with_python:dis}able-python \
 	--%{?with_ruby:en}%{!?with_ruby:dis}able-ruby \
@@ -90,11 +110,19 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/weechat/plugins/*.la
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files -f %{name}.lang
+%files
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/weechat-curses
+%{_mandir}/man1/weechat-curses.1*
+
+%files gtk
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/weechat-gtk
+
+%files common -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS BUGS FAQ NEWS README TODO
 %doc html-doc/*
-%attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/weechat
 %dir %{_libdir}/weechat/plugins
 %attr(755,root,root) %{_libdir}/weechat/plugins/aspell.so*
@@ -103,4 +131,3 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/weechat/plugins/perl.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/python.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/ruby.so*
-%{_mandir}/man1/*.1*
