@@ -1,0 +1,24 @@
+diff -urN weechat-0.2.6.org/configure.in weechat-0.2.6/configure.in
+--- weechat-0.2.6.org/configure.in	2007-09-05 16:14:00.000000000 +0200
++++ weechat-0.2.6/configure.in	2008-03-14 22:48:53.521576067 +0100
+@@ -724,20 +724,6 @@
+     AC_MSG_RESULT(no)
+ fi
+  
+-CFLAGS=`echo $CFLAGS | sed s/-g//g`
+-if test "x$CFLAGS" = "x" ; then
+-    CFLAGS="-O2"
+-fi
+-if test "x$debug" = "x1" || test "x$debug" = "x2" ; then
+-    CFLAGS="$COMMON_CFLAGS $CFLAGS -g"
+-else
+-    CFLAGS="$COMMON_CFLAGS $CFLAGS"
+-fi
+-
+-if test "x$debug" = "x2" ; then
+-    AC_DEFINE(DEBUG)
+-fi
+-
+ LIBS="$LIBS $INTLLIBS"
+ 
+ case "$host_os" in
