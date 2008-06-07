@@ -71,8 +71,10 @@ WeeChat common files.
 sed -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.in
 
 %build
+%{__libtoolize}
 %{__aclocal}
 %{__autoconf}
+%{__automake}
 %configure \
 %if "%{_lib}" == "lib64"
 	--enable-libsuffix=64 \
@@ -115,9 +117,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/weechat-curses
 %{_mandir}/man1/weechat-curses.1*
 
+%if %{with gtk}
 %files gtk
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/weechat-gtk
+%endif
 
 %files common -f %{name}.lang
 %defattr(644,root,root,755)
