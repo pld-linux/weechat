@@ -29,6 +29,7 @@ BuildRequires:	automake
 BuildRequires:	docbook-style-xsl
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_gtk:BuildRequires:	gtk+2-devel}
+BuildRequires:	libtool
 %{?with_lua:BuildRequires:	lua-devel}
 BuildRequires:	ncurses-devel
 %{?with_perl:BuildRequires:	perl-devel}
