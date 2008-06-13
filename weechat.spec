@@ -27,13 +27,18 @@ URL:		http://weechat.flashtux.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	docbook-style-xsl
+BuildRequires:	gettext-devel
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_gtk:BuildRequires:	gtk+2-devel}
 BuildRequires:	libtool
-%{?with_lua:BuildRequires:	lua-devel}
+%{?with_lua:BuildRequires:	lua-devel >= 5.0}
 BuildRequires:	ncurses-devel
 %{?with_perl:BuildRequires:	perl-devel}
-%{?with_python:BuildRequires:	python-devel}
+BuildRequires:	pkgconfig
+%if %{with python}
+BuildRequires:	python-devel
+BuildRequires:	python-modules
+%endif
 %{?with_qt:BuildRequires:	qt-devel}
 BuildRequires:	rpmbuild(macros) >= 1.129
 %{?with_ruby:BuildRequires:	ruby-devel}
