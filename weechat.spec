@@ -15,12 +15,12 @@
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	0.2.6
-Release:	3
+Version:	0.2.6.1
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://weechat.flashtux.org/download/%{name}-%{version}.tar.bz2
-# Source0-md5:	ccdecf663b0050a23049acb4b9a76193
+# Source0-md5:	6cf818482feb6a6ef90b70694d25c7e9
 Patch0:		%{name}-ac.patch
 URL:		http://weechat.flashtux.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
