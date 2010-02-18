@@ -27,7 +27,6 @@ URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	docbook-style-xsl
 BuildRequires:	gettext-devel
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_gtk:BuildRequires:	gtk+2-devel}
@@ -43,6 +42,7 @@ BuildRequires:	python-modules
 %{?with_qt:BuildRequires:	qt-devel}
 BuildRequires:	rpmbuild(macros) >= 1.129
 %{?with_ruby:BuildRequires:	ruby-devel}
+BuildRequires:	tcl-devel
 Requires:	%{name}-common = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
