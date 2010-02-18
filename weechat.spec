@@ -15,14 +15,15 @@
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	0.2.6.1
+Version:	0.3.1
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	http://weechat.flashtux.org/download/%{name}-%{version}.tar.bz2
-# Source0-md5:	6cf818482feb6a6ef90b70694d25c7e9
+Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
+# Source0-md5:	748c6b5ec600cdb28224e90b6d8efd3b
 Patch0:		%{name}-ac.patch
-URL:		http://weechat.flashtux.org/
+Patch1:		%{name}-plugins_header.patch
+URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -74,6 +75,7 @@ WeeChat common files.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 sed -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.in
 
 %build
@@ -86,11 +88,7 @@ sed -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.in
 	--enable-libsuffix=64 \
 %endif
 	--enable-threads=posix \
-	--with-doc-xsl-prefix=%{_datadir}/sgml/docbook/xsl-stylesheets \
-	--%{?debug:en}%{!?debug:dis}able-debug%{?debug:=full} \
 	--disable-static \
-	--enable-plugins \
-	--with-qt-libraries=%{_libdir} \
 	--%{?with_qt:en}%{!?with_qt:dis}able-qt \
 	--enable-ncurses \
 	--%{?with_aspell:en}%{!?with_aspell:dis}able-aspell \
@@ -104,14 +102,13 @@ sed -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.in
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_mandir}/man1
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm -rf html-doc
-mv $RPM_BUILD_ROOT%{_datadir}/doc/weechat html-doc
-
 rm -f $RPM_BUILD_ROOT%{_libdir}/weechat/plugins/*.la
+cp doc/weechat-curses.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 %find_lang %{name}
 
@@ -131,13 +128,21 @@ rm -rf $RPM_BUILD_ROOT
 
 %files common -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS BUGS FAQ NEWS README TODO
-%doc html-doc/*
+%doc AUTHORS ChangeLog NEWS README UPGRADE_0.3
+%dir %{_includedir}/weechat
 %dir %{_libdir}/weechat
 %dir %{_libdir}/weechat/plugins
+%{_includedir}/weechat/weechat-plugin.h
+%attr(755,root,root) %{_libdir}/weechat/plugins/alias.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/aspell.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/charset.so*
+%attr(755,root,root) %{_libdir}/weechat/plugins/fifo.so*
+%attr(755,root,root) %{_libdir}/weechat/plugins/irc.so*
+%attr(755,root,root) %{_libdir}/weechat/plugins/logger.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/lua.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/perl.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/python.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/ruby.so*
+%attr(755,root,root) %{_libdir}/weechat/plugins/tcl.so*
+%attr(755,root,root) %{_libdir}/weechat/plugins/xfer.so*
+%{_pkgconfigdir}/weechat.pc
