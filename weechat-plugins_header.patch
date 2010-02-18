@@ -1,0 +1,10 @@
+--- weechat-0.3.1/src/plugins/Makefile.am	2010-01-03 19:32:17.000000000 +0100
++++ weechat-0.3.1-dud/src/plugins/Makefile.am	2010-02-18 11:12:56.325500301 +0100
+@@ -90,5 +90,5 @@ EXTRA_DIST = CMakeLists.txt
+ # install plugin header
+ 
+ install-data-hook:
+-	$(INSTALL) -d $(includedir)/$(PACKAGE)
+-	$(INSTALL_DATA) weechat-plugin.h $(includedir)/$(PACKAGE)
++	$(INSTALL) -d $(DESTDIR)/$(includedir)/$(PACKAGE)
++	$(INSTALL_DATA) weechat-plugin.h $(DESTDIR)/$(includedir)/$(PACKAGE)
