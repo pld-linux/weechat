@@ -59,7 +59,7 @@ pomocą skryptów.
 
 %package gtk
 Summary:	GTK WeeChat UI
-Group:		X11/Applications
+Group:		Applications/Communications
 Requires:	%{name}-common = %{version}-%{release}
 
 %description gtk
