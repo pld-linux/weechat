@@ -18,7 +18,7 @@ Name:		weechat
 Version:	0.3.2
 Release:	1
 License:	GPL v3+
-Group:		X11/Applications
+Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
 # Source0-md5:	0c4f6e7196703c6eca12217f254612aa
 Patch0:		%{name}-ac.patch
@@ -67,7 +67,7 @@ GTK WeeChat UI.
 
 %package common
 Summary:	WeeChat common files
-Group:		X11/Applications
+Group:		Applications/Communications
 
 %description common
 WeeChat common files.
