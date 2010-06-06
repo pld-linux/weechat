@@ -16,13 +16,14 @@ Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
 Version:	0.3.2
-Release:	2
+Release:	3
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
 # Source0-md5:	0c4f6e7196703c6eca12217f254612aa
 Patch0:		%{name}-ac.patch
 Patch1:		%{name}-plugins_header.patch
+Patch2:		%{name}-curses.patch
 URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	autoconf
@@ -76,6 +77,7 @@ WeeChat common files.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p0
 sed -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.in
 
 %build
