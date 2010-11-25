@@ -11,12 +11,14 @@
 %bcond_without	perl	# don't build perl plugin support
 %bcond_without	python	# don't build python plugin support
 %bcond_without	gnutls	# don't build gnutls support
-#
+
+%define		skip_post_check_so	ruby.so.0.0.0
+
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
 Version:	0.3.2
-Release:	4
+Release:	5
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
