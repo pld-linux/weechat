@@ -17,12 +17,12 @@
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	0.3.3
+Version:	0.3.4
 Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
-# Source0-md5:	96e203ef061ce61053ed7256a738959c
+# Source0-md5:	a36a89b6012994dc67c4c0ea36784d1d
 Patch0:		%{name}-ac.patch
 Patch1:		%{name}-plugins_header.patch
 Patch2:		%{name}-curses.patch
@@ -146,6 +146,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/weechat/plugins/lua.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/perl.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/python.so*
+%attr(755,root,root) %{_libdir}/weechat/plugins/relay.so*
+%attr(755,root,root) %{_libdir}/weechat/plugins/rmodifier.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/ruby.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/tcl.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/xfer.so*
