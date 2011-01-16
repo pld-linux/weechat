@@ -92,6 +92,7 @@ sed -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.in
 	--enable-libsuffix=64 \
 %endif
 	--enable-threads=posix \
+	--disable-doc \
 	--disable-static \
 	--%{?with_qt:en}%{!?with_qt:dis}able-qt \
 	--enable-ncurses \
