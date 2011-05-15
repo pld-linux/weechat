@@ -34,7 +34,7 @@ BuildRequires:	gettext-devel
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_gtk:BuildRequires:	gtk+2-devel}
 BuildRequires:	libtool
-%{?with_lua:BuildRequires:	lua-devel >= 5.0}
+%{?with_lua:BuildRequires:	lua51-devel}
 BuildRequires:	ncurses-devel
 %{?with_perl:BuildRequires:	perl-devel}
 BuildRequires:	pkgconfig
