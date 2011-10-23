@@ -17,12 +17,12 @@
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	0.3.5
-Release:	3
+Version:	0.3.6
+Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
-# Source0-md5:	c305cbbf45a329dc4703a636055c8458
+# Source0-md5:	f130af1f858919fd446561faeaaf555e
 Patch0:		%{name}-ac.patch
 Patch1:		%{name}-plugins_header.patch
 Patch2:		%{name}-curses.patch
@@ -34,6 +34,7 @@ BuildRequires:	gettext-devel
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_gtk:BuildRequires:	gtk+2-devel}
 BuildRequires:	libtool
+BuildRequires:	libgcrypt-devel
 %{?with_lua:BuildRequires:	lua51-devel}
 BuildRequires:	ncurses-devel
 %{?with_perl:BuildRequires:	perl-devel}
@@ -102,7 +103,8 @@ sed -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.in
 	--%{?with_python:en}%{!?with_python:dis}able-python \
 	--%{?with_ruby:en}%{!?with_ruby:dis}able-ruby \
 	--%{?with_lua:en}%{!?with_lua:dis}able-lua \
-	--%{?with_gnutls:en}%{!?with_gnutls:dis}able-gnutls
+	--%{?with_gnutls:en}%{!?with_gnutls:dis}able-gnutls \
+	%{!?debug:--with-debug=0}
 %{__make}
 
 %install
