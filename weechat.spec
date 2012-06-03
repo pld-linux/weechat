@@ -17,12 +17,12 @@
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	0.3.6
+Version:	0.3.8
 Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
-# Source0-md5:	f130af1f858919fd446561faeaaf555e
+# Source0-md5:	f1746809f81e554662883ebc762f2bb8
 Patch0:		%{name}-ac.patch
 Patch1:		%{name}-plugins_header.patch
 Patch2:		%{name}-curses.patch
@@ -30,9 +30,11 @@ URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	curl-devel
 BuildRequires:	gettext-devel
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_gtk:BuildRequires:	gtk+2-devel}
+BuildRequires:	guile-devel
 BuildRequires:	libtool
 BuildRequires:	libgcrypt-devel
 %{?with_lua:BuildRequires:	lua51-devel}
@@ -144,6 +146,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/weechat/plugins/aspell.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/charset.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/fifo.so*
+%attr(755,root,root) %{_libdir}/weechat/plugins/guile.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/irc.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/logger.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/lua.so*
