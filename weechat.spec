@@ -5,7 +5,6 @@
 # Conditional build:
 %bcond_without	aspell	# don't build aspell support
 %bcond_without	gtk	# build gtk support
-%bcond_with	qt	# don't build qt support
 %bcond_without	ruby	# don't build ruby plugin support
 %bcond_without	lua	# don't build lua plugin support
 %bcond_without	perl	# don't build perl plugin support
@@ -17,12 +16,12 @@
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	0.3.8
+Version:	0.3.9.2
 Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
-# Source0-md5:	f1746809f81e554662883ebc762f2bb8
+# Source0-md5:	8df440bd53aa88168e564d246cb9c5a3
 Patch0:		%{name}-ac.patch
 Patch1:		%{name}-plugins_header.patch
 Patch2:		%{name}-curses.patch
@@ -35,6 +34,7 @@ BuildRequires:	gettext-devel
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_gtk:BuildRequires:	gtk+2-devel}
 BuildRequires:	guile-devel
+BuildRequires:	libatomic_ops
 BuildRequires:	libtool
 BuildRequires:	libgcrypt-devel
 %{?with_lua:BuildRequires:	lua51-devel}
@@ -45,7 +45,6 @@ BuildRequires:	pkgconfig
 BuildRequires:	python-devel
 BuildRequires:	python-modules
 %endif
-%{?with_qt:BuildRequires:	qt-devel}
 BuildRequires:	rpmbuild(macros) >= 1.129
 %{?with_ruby:BuildRequires:	ruby-devel}
 BuildRequires:	tcl-devel
@@ -85,6 +84,11 @@ WeeChat common files.
 %patch2 -p0
 sed -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.in
 
+%if !%{with gtk}
+echo 'AC_DEFUN([AM_PATH_GTK_2_0],[])' >> acinclude.m4
+%endif
+
+
 %build
 %{__libtoolize}
 %{__aclocal}
@@ -97,7 +101,6 @@ sed -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.in
 	--enable-threads=posix \
 	--disable-doc \
 	--disable-static \
-	--%{?with_qt:en}%{!?with_qt:dis}able-qt \
 	--enable-ncurses \
 	--%{?with_aspell:en}%{!?with_aspell:dis}able-aspell \
 	--%{?with_gtk:en}%{!?with_gtk:dis}able-gtk \
@@ -143,18 +146,19 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/weechat/plugins
 %{_includedir}/weechat/weechat-plugin.h
 %attr(755,root,root) %{_libdir}/weechat/plugins/alias.so*
-%attr(755,root,root) %{_libdir}/weechat/plugins/aspell.so*
+%{?with_aspell:%attr(755,root,root) %{_libdir}/weechat/plugins/aspell.so*}
 %attr(755,root,root) %{_libdir}/weechat/plugins/charset.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/fifo.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/guile.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/irc.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/logger.so*
-%attr(755,root,root) %{_libdir}/weechat/plugins/lua.so*
-%attr(755,root,root) %{_libdir}/weechat/plugins/perl.so*
-%attr(755,root,root) %{_libdir}/weechat/plugins/python.so*
+%{?with_lua:%attr(755,root,root) %{_libdir}/weechat/plugins/lua.so*}
+%{?with_perl:%attr(755,root,root) %{_libdir}/weechat/plugins/perl.so*}
+%{?with_python:%attr(755,root,root) %{_libdir}/weechat/plugins/python.so*}
 %attr(755,root,root) %{_libdir}/weechat/plugins/relay.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/rmodifier.so*
-%attr(755,root,root) %{_libdir}/weechat/plugins/ruby.so*
+%{?with_ruby:%attr(755,root,root) %{_libdir}/weechat/plugins/ruby.so*}
+%attr(755,root,root) %{_libdir}/weechat/plugins/script.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/tcl.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/xfer.so*
 %{_pkgconfigdir}/weechat.pc
