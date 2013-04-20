@@ -1,0 +1,16 @@
+they should really use pkgconfig on guile-2.0
+
+--- weechat-0.4.0/cmake/FindGuile.cmake~	2013-01-20 10:21:06.000000000 +0200
++++ weechat-0.4.0/cmake/FindGuile.cmake	2013-04-20 12:10:11.580621173 +0300
+@@ -31,9 +31,9 @@
+    SET(GUILE_FIND_QUIETLY TRUE)
+ ENDIF(GUILE_FOUND)
+ 
+-FIND_PATH(GUILE_INCLUDE_DIR libguile.h /usr/include /usr/local/include /usr/include/libguile /usr/local/include/libguile)
++FIND_PATH(GUILE_INCLUDE_DIR libguile.h /usr/include /usr/local/include /usr/include/libguile /usr/local/include/libguile /usr/include/guile/2.0)
+ 
+-FIND_LIBRARY(GUILE_LIBRARY NAMES guile PATH /usr/lib /usr/local/lib)
++FIND_LIBRARY(GUILE_LIBRARY NAMES guile guile-2.0 PATH /usr/lib /usr/local/lib /usr/lib64)
+ 
+ IF(GUILE_INCLUDE_DIR AND GUILE_LIBRARY)
+   SET(GUILE_FOUND TRUE)
