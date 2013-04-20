@@ -2,38 +2,41 @@
 # - consider doing subpackages for all those plugins (which one should be in main package ?)
 #
 # Conditional build:
+# Features
 %bcond_without	aspell	# don't build aspell support
 %bcond_without	gtk	# build gtk support
-%bcond_without	ruby	# don't build ruby plugin support
-%bcond_without	lua	# don't build lua plugin support
-%bcond_without	perl	# don't build perl plugin support
-%bcond_without	python	# don't build python plugin support
 %bcond_without	gnutls	# don't build gnutls support
+%bcond_without	doc	# don't build docs
+# Bindings
+%bcond_without	guile	# don't enable Scheme (guile) scripting language
+%bcond_without	lua	# don't enable Lua scripting language
+%bcond_without	perl	# don't enable Perl scripting language
+%bcond_without	python	# don't enable Python scripting language
+%bcond_without	ruby	# don't enable Ruby scripting language
+%bcond_without	tcl	# don't enable Tcl scripting language
 
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	0.3.9.2
+Version:	0.4.0
 Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
-# Source0-md5:	8df440bd53aa88168e564d246cb9c5a3
+# Source0-md5:	6d3c0f338d4ec3fb3386becd1efa6ae1
 Patch0:		%{name}-ac.patch
 Patch1:		%{name}-plugins_header.patch
 Patch2:		%{name}-curses.patch
 URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
-BuildRequires:	autoconf
-BuildRequires:	automake
+BuildRequires:	cmake
 BuildRequires:	curl-devel
 BuildRequires:	gettext-devel
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_gtk:BuildRequires:	gtk+2-devel}
-BuildRequires:	guile-devel
+%{?with_guile:BuildRequires:	guile-devel}
 BuildRequires:	libatomic_ops
 BuildRequires:	libgcrypt-devel
-BuildRequires:	libtool
 %{?with_lua:BuildRequires:	lua51-devel}
 BuildRequires:	ncurses-devel
 %{?with_perl:BuildRequires:	perl-devel}
@@ -77,6 +80,13 @@ Group:		Applications/Communications
 %description common
 WeeChat common files for Curses and GTK UI.
 
+%package doc
+Summary:	Manual for weechat
+Group:		Documentation
+
+%description doc
+HTML documentation for weechat.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -91,37 +101,34 @@ echo 'AC_DEFUN([AM_PATH_GTK_2_0],[])' >> acinclude.m4
 %endif
 
 %build
-%{__libtoolize}
-%{__aclocal}
-%{__autoconf}
-%{__automake}
-%configure \
-%if "%{_lib}" == "lib64"
-	--enable-libsuffix=64 \
-%endif
-	--enable-threads=posix \
-	--disable-doc \
-	--disable-static \
-	--enable-ncurses \
-	--%{?with_aspell:en}%{!?with_aspell:dis}able-aspell \
-	--%{?with_gtk:en}%{!?with_gtk:dis}able-gtk \
-	--%{?with_perl:en}%{!?with_perl:dis}able-perl \
-	--%{?with_python:en}%{!?with_python:dis}able-python \
-	--%{?with_ruby:en}%{!?with_ruby:dis}able-ruby \
-	--%{?with_lua:en}%{!?with_lua:dis}able-lua \
-	--%{?with_gnutls:en}%{!?with_gnutls:dis}able-gnutls \
-	%{!?debug:--with-debug=0}
-%{__make}
+install -d build
+cd build
+%cmake \
+	-DPREFIX=%{_prefix} \
+	-DLIBDIR=%{_libdir} \
+	-DENABLE_NCURSES=ON \
+	-DENABLE_ASPELL=%{?with_aspell:ON}%{!?with_aspell:OFF} \
+	-DENABLE_GTK=%{?with_gtk:ON}%{!?with_gtk:OFF} \
+	-DENABLE_GNUTLS=%{?with_gnutls:ON}%{!?with_gnutls:OFF} \
+	-DENABLE_DOC=%{?with_doc:ON}%{!?with_doc:OFF} \
+	-DENABLE_PERL=%{?with_perl:ON}%{!?with_perl:OFF} \
+	-DENABLE_PYTHON=%{?with_python:ON}%{!?with_python:OFF} \
+	-DENABLE_RUBY=%{?with_ruby:ON}%{!?with_ruby:OFF} \
+	-DENABLE_LUA=%{?with_lua:ON}%{!?with_lua:OFF} \
+	-DENABLE_GUILE=%{?with_guile:ON}%{!?with_guile:OFF} \
+	-DENABLE_TCL=%{?with_tcl:ON}%{!?with_tcl:OFF} \
+	..
+
+%{__make} VERBOSE=1
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_mandir}/man1
-
-%{__make} install \
+%{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/weechat/plugins/*.la
-cp doc/weechat-curses.1 $RPM_BUILD_ROOT%{_mandir}/man1
+# no -devel, drop
+%{__rm} -r $RPM_BUILD_ROOT%{_includedir}/%{name}
+%{__rm} $RPM_BUILD_ROOT%{_pkgconfigdir}/%{name}.pc
 
 %find_lang %{name}
 
@@ -141,25 +148,40 @@ rm -rf $RPM_BUILD_ROOT
 
 %files common -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README UPGRADE_0.3
-%dir %{_includedir}/weechat
+%doc AUTHORS ChangeLog NEWS README
 %dir %{_libdir}/weechat
 %dir %{_libdir}/weechat/plugins
-%{_includedir}/weechat/weechat-plugin.h
 %attr(755,root,root) %{_libdir}/weechat/plugins/alias.so*
-%{?with_aspell:%attr(755,root,root) %{_libdir}/weechat/plugins/aspell.so*}
 %attr(755,root,root) %{_libdir}/weechat/plugins/charset.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/fifo.so*
-%attr(755,root,root) %{_libdir}/weechat/plugins/guile.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/irc.so*
 %attr(755,root,root) %{_libdir}/weechat/plugins/logger.so*
+%attr(755,root,root) %{_libdir}/weechat/plugins/relay.so*
+%attr(755,root,root) %{_libdir}/weechat/plugins/rmodifier.so*
+%attr(755,root,root) %{_libdir}/weechat/plugins/script.so*
+%attr(755,root,root) %{_libdir}/weechat/plugins/xfer.so*
+
+# addons
+%{?with_aspell:%attr(755,root,root) %{_libdir}/weechat/plugins/aspell.so*}
+
+# language bindings
+%{?with_guile:%attr(755,root,root) %{_libdir}/weechat/plugins/guile.so*}
 %{?with_lua:%attr(755,root,root) %{_libdir}/weechat/plugins/lua.so*}
 %{?with_perl:%attr(755,root,root) %{_libdir}/weechat/plugins/perl.so*}
 %{?with_python:%attr(755,root,root) %{_libdir}/weechat/plugins/python.so*}
-%attr(755,root,root) %{_libdir}/weechat/plugins/relay.so*
-%attr(755,root,root) %{_libdir}/weechat/plugins/rmodifier.so*
 %{?with_ruby:%attr(755,root,root) %{_libdir}/weechat/plugins/ruby.so*}
-%attr(755,root,root) %{_libdir}/weechat/plugins/script.so*
-%attr(755,root,root) %{_libdir}/weechat/plugins/tcl.so*
-%attr(755,root,root) %{_libdir}/weechat/plugins/xfer.so*
-%{_pkgconfigdir}/weechat.pc
+%{?with_tcl:%attr(755,root,root) %{_libdir}/weechat/plugins/tcl.so*}
+
+%if %{with doc}
+%files doc
+%defattr(644,root,root,755)
+%dir %{_docdir}/%{name}
+%lang(de) %{_docdir}/%{name}/*.de.html
+%lang(en) %{_docdir}/%{name}/*.en.html
+%lang(es) %{_docdir}/%{name}/*.es.html
+%lang(fr) %{_docdir}/%{name}/*.fr.html
+%lang(it) %{_docdir}/%{name}/*.it.html
+%lang(ja) %{_docdir}/%{name}/*.ja.html
+%lang(pl) %{_docdir}/%{name}/*.pl.html
+%lang(ru) %{_docdir}/%{name}/*.ru.html
+%endif
