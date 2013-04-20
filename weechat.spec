@@ -1,4 +1,3 @@
-#
 # TODO:
 # - consider doing subpackages for all those plugins (which one should be in main package ?)
 #
@@ -10,8 +9,6 @@
 %bcond_without	perl	# don't build perl plugin support
 %bcond_without	python	# don't build python plugin support
 %bcond_without	gnutls	# don't build gnutls support
-
-%define		skip_post_check_so	ruby.so.0.0.0
 
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
@@ -35,12 +32,13 @@ BuildRequires:	gettext-devel
 %{?with_gtk:BuildRequires:	gtk+2-devel}
 BuildRequires:	guile-devel
 BuildRequires:	libatomic_ops
-BuildRequires:	libtool
 BuildRequires:	libgcrypt-devel
+BuildRequires:	libtool
 %{?with_lua:BuildRequires:	lua51-devel}
 BuildRequires:	ncurses-devel
 %{?with_perl:BuildRequires:	perl-devel}
 BuildRequires:	pkgconfig
+BuildRequires:	sed >= 4.0
 %if %{with python}
 BuildRequires:	python-devel
 BuildRequires:	python-modules
@@ -50,6 +48,8 @@ BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	tcl-devel
 Requires:	%{name}-common = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		skip_post_check_so	ruby.so.0.0.0
 
 %description
 WeeChat (Wee Enhanced Environment for Chat) is a fast and light chat
@@ -75,19 +75,20 @@ Summary:	WeeChat common files
 Group:		Applications/Communications
 
 %description common
-WeeChat common files.
+WeeChat common files for Curses and GTK UI.
 
 %prep
 %setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0
-sed -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.in
 
-%if !%{with gtk}
+%{__sed} -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.in
+%{__sed} -i -e 's/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/' configure.in
+
+%if %{without gtk}
 echo 'AC_DEFUN([AM_PATH_GTK_2_0],[])' >> acinclude.m4
 %endif
-
 
 %build
 %{__libtoolize}
