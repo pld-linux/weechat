@@ -1,0 +1,11 @@
+--- a/cmake/FindRuby.cmake
++++ b/cmake/FindRuby.cmake
+@@ -58,7 +58,7 @@
+     )
+ 
+   EXECUTE_PROCESS(
+-    COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['ruby_version']"
++    COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['RUBY_PROGRAM_VERSION']"
+     OUTPUT_VARIABLE RUBY_VERSION
+     )
+ 
