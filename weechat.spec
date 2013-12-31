@@ -4,7 +4,6 @@
 # Conditional build:
 # Features
 %bcond_without	aspell	# don't build aspell support
-%bcond_without	gtk	# build gtk support
 %bcond_without	gnutls	# don't build gnutls support
 %bcond_without	doc	# don't build docs
 # Bindings
@@ -18,17 +17,13 @@
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	0.4.0
-Release:	4
+Version:	0.4.2
+Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
-# Source0-md5:	6d3c0f338d4ec3fb3386becd1efa6ae1
-Patch0:		%{name}-ac.patch
+# Source0-md5:	fd584c258aace2aa898f40e1fcf06084
 Patch1:		%{name}-plugins_header.patch
-Patch2:		%{name}-curses.patch
-Patch3:		findguile.patch
-Patch4:		weechat-0.4.0-ruby-2.0-crash.patch
 Patch5:		weechat-0.4.0-ruby-version.patch
 URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
@@ -36,7 +31,6 @@ BuildRequires:	cmake
 BuildRequires:	curl-devel
 BuildRequires:	gettext-devel
 %{?with_gnutls:BuildRequires:	gnutls-devel}
-%{?with_gtk:BuildRequires:	gtk+2-devel}
 %{?with_guile:BuildRequires:	guile-devel}
 BuildRequires:	libatomic_ops
 BuildRequires:	libgcrypt-devel
@@ -68,14 +62,6 @@ WeeChat (Wee Ehanced Environment for Chat) to szybkie i lekkie
 zrobić przy pomocy klawiatury. Jest konfigurowalne i rozszerzalne za
 pomocą skryptów.
 
-%package gtk
-Summary:	GTK WeeChat UI
-Group:		Applications/Communications
-Requires:	%{name}-common = %{version}-%{release}
-
-%description gtk
-GTK WeeChat UI.
-
 %package common
 Summary:	WeeChat common files
 Group:		Applications/Communications
@@ -92,19 +78,11 @@ HTML documentation for weechat.
 
 %prep
 %setup -q
-%patch0 -p1
 %patch1 -p1
-%patch2 -p0
-%patch3 -p1
-%patch4 -p1
 %patch5 -p1
 
-%{__sed} -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.in
-%{__sed} -i -e 's/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/' configure.in
-
-%if %{without gtk}
-echo 'AC_DEFUN([AM_PATH_GTK_2_0],[])' >> acinclude.m4
-%endif
+%{__sed} -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.ac
+%{__sed} -i -e 's/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/' configure.ac
 
 %build
 install -d build
@@ -114,7 +92,6 @@ cd build
 	-DLIBDIR=%{_libdir} \
 	-DENABLE_NCURSES=ON \
 	-DENABLE_ASPELL=%{?with_aspell:ON}%{!?with_aspell:OFF} \
-	-DENABLE_GTK=%{?with_gtk:ON}%{!?with_gtk:OFF} \
 	-DENABLE_GNUTLS=%{?with_gnutls:ON}%{!?with_gnutls:OFF} \
 	-DENABLE_DOC=%{?with_doc:ON}%{!?with_doc:OFF} \
 	-DENABLE_PERL=%{?with_perl:ON}%{!?with_perl:OFF} \
@@ -123,6 +100,8 @@ cd build
 	-DENABLE_LUA=%{?with_lua:ON}%{!?with_lua:OFF} \
 	-DENABLE_GUILE=%{?with_guile:ON}%{!?with_guile:OFF} \
 	-DENABLE_TCL=%{?with_tcl:ON}%{!?with_tcl:OFF} \
+    -DENABLE_MAN=ON \
+    -DENABLE_DOC=ON \
 	..
 
 %{__make} VERBOSE=1
@@ -143,14 +122,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/weechat-curses
-%{_mandir}/man1/weechat-curses.1*
-
-%if %{with gtk}
-%files gtk
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/weechat-gtk
-%endif
+%attr(755,root,root) %{_bindir}/weechat
+%{_mandir}/man1/weechat.1*
 
 %files common -f %{name}.lang
 %defattr(644,root,root,755)
