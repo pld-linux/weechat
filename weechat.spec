@@ -24,6 +24,7 @@ Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
 # Source0-md5:	fd584c258aace2aa898f40e1fcf06084
 Patch1:		%{name}-plugins_header.patch
+Patch2:		%{name}-curses.patch
 Patch5:		weechat-0.4.0-ruby-version.patch
 URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
@@ -79,6 +80,7 @@ HTML documentation for weechat.
 %prep
 %setup -q
 %patch1 -p1
+%patch2 -p0
 %patch5 -p1
 
 %{__sed} -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.ac
