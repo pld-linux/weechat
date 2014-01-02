@@ -100,8 +100,8 @@ cd build
 	-DENABLE_LUA=%{?with_lua:ON}%{!?with_lua:OFF} \
 	-DENABLE_GUILE=%{?with_guile:ON}%{!?with_guile:OFF} \
 	-DENABLE_TCL=%{?with_tcl:ON}%{!?with_tcl:OFF} \
-    -DENABLE_MAN=ON \
-    -DENABLE_DOC=ON \
+	-DENABLE_MAN=ON \
+	-DENABLE_DOC=ON \
 	..
 
 %{__make} VERBOSE=1
