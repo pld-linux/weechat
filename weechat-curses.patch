@@ -1,5 +1,5 @@
---- configure.in.orig	2011-10-22 09:15:47.000000000 +0200
-+++ configure.in	2011-10-23 19:22:22.834371143 +0200
+--- configure.ac.orig	2011-10-22 09:15:47.000000000 +0200
++++ configure.ac	2011-10-23 19:22:22.834371143 +0200
 @@ -872,7 +872,7 @@
  enable_eatnewlineglitch="no"
  AC_CACHE_CHECK([for eat_newline_glitch support], ac_have_eatnewlineglitch, [
