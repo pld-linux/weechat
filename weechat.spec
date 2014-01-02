@@ -126,6 +126,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/weechat
 %{_mandir}/man1/weechat.1*
+%{_mandir}/de/man1/weechat.1*
+%{_mandir}/fr/man1/weechat.1*
+%{_mandir}/it/man1/weechat.1*
+%{_mandir}/ja/man1/weechat.1*
 
 %files common -f %{name}.lang
 %defattr(644,root,root,755)
