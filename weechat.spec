@@ -30,7 +30,7 @@ URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	cmake
 BuildRequires:	curl-devel
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_guile:BuildRequires:	guile-devel}
 BuildRequires:	libatomic_ops
