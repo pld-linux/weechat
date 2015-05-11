@@ -65,6 +65,9 @@ pomocą skryptów.
 %package doc
 Summary:	Manual for weechat
 Group:		Documentation
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description doc
 HTML documentation for weechat.
