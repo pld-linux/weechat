@@ -34,7 +34,6 @@ BuildRequires:	curl-devel
 BuildRequires:	gettext-tools
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_guile:BuildRequires:	guile-devel}
-BuildRequires:	libatomic_ops
 BuildRequires:	libgcrypt-devel
 %{?with_lua:BuildRequires:	lua51-devel}
 BuildRequires:	ncurses-devel
