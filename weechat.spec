@@ -1,6 +1,5 @@
 # TODO:
 # - consider doing subpackages for all those plugins (which one should be in main package ?)
-# - split common, now that only curses frontend is built?
 # - desktop file (icon exists, but no desktop file?)
 #
 # Conditional build:
@@ -47,7 +46,7 @@ BuildRequires:	python-modules
 BuildRequires:	rpmbuild(macros) >= 1.129
 %{?with_ruby:BuildRequires:	ruby-devel}
 BuildRequires:	tcl-devel
-Requires:	%{name}-common = %{version}-%{release}
+Obsoletes:	weechat-common
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		skip_post_check_so	ruby.so.0.0.0
@@ -62,13 +61,6 @@ WeeChat (Wee Ehanced Environment for Chat) to szybkie i lekkie
 środowisko do rozmów dla wielu systemów operacyjnych. Pozwala wszystko
 zrobić przy pomocy klawiatury. Jest konfigurowalne i rozszerzalne za
 pomocą skryptów.
-
-%package common
-Summary:	WeeChat common files
-Group:		Applications/Communications
-
-%description common
-WeeChat common files for Curses and GTK UI.
 
 %package doc
 Summary:	Manual for weechat
@@ -123,8 +115,9 @@ rm -rf $RPM_BUILD_ROOT
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
+%doc AUTHORS.asciidoc ChangeLog.asciidoc README.asciidoc ReleaseNotes.asciidoc
 %attr(755,root,root) %{_bindir}/weechat
 %{_mandir}/man1/weechat.1*
 %lang(de) %{_mandir}/de/man1/weechat.1*
@@ -135,9 +128,6 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ru) %{_mandir}/ru/man1/weechat.1*
 %{_iconsdir}/hicolor/*/apps/weechat.png
 
-%files common -f %{name}.lang
-%defattr(644,root,root,755)
-%doc AUTHORS.asciidoc ChangeLog.asciidoc README.asciidoc ReleaseNotes.asciidoc
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/plugins
 %attr(755,root,root) %{_libdir}/%{name}/plugins/alias.so
