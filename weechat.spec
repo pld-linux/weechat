@@ -27,6 +27,7 @@ Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
 # Source0-md5:	7e561d9093af164c2ab32634ece0e0ef
 Patch2:		%{name}-curses.patch
 URL:		http://www.weechat.org/
+%{?with_doc:BuildRequires:	asciidoc}
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	cmake
 BuildRequires:	curl-devel
@@ -40,6 +41,7 @@ BuildRequires:	ncurses-devel
 %{?with_perl:BuildRequires:	perl-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
+%{?with_doc:BuildRequires:	source-highlight}
 %{?with_js:BuildRequires:	v8-devel}
 %if %{with python}
 BuildRequires:	python-devel
@@ -98,7 +100,6 @@ cd build
 	-DENABLE_GUILE=%{?with_guile:ON}%{!?with_guile:OFF} \
 	-DENABLE_TCL=%{?with_tcl:ON}%{!?with_tcl:OFF} \
 	-DENABLE_MAN=ON \
-	-DENABLE_DOC=ON \
 	..
 
 %{__make} VERBOSE=1
