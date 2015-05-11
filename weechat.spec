@@ -1,5 +1,7 @@
 # TODO:
 # - consider doing subpackages for all those plugins (which one should be in main package ?)
+# - split common, now that only curses frontend is built?
+# - desktop file (icon exists, but no desktop file?)
 #
 # Conditional build:
 # Features
@@ -17,15 +19,13 @@
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	0.4.2
-Release:	5
+Version:	1.2
+Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
-# Source0-md5:	fd584c258aace2aa898f40e1fcf06084
-Patch1:		%{name}-plugins_header.patch
+# Source0-md5:	7e561d9093af164c2ab32634ece0e0ef
 Patch2:		%{name}-curses.patch
-Patch5:		weechat-0.4.0-ruby-version.patch
 URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	cmake
@@ -79,9 +79,7 @@ HTML documentation for weechat.
 
 %prep
 %setup -q
-%patch1 -p1
 %patch2 -p0
-%patch5 -p1
 
 %{__sed} -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.ac
 %{__sed} -i -e 's/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/' configure.ac
@@ -113,6 +111,9 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+# symlink to "weechat"
+%{__rm} $RPM_BUILD_ROOT%{_bindir}/weechat-curses
+
 # no -devel, drop
 %{__rm} -r $RPM_BUILD_ROOT%{_includedir}/%{name}
 %{__rm} $RPM_BUILD_ROOT%{_pkgconfigdir}/%{name}.pc
@@ -130,32 +131,37 @@ rm -rf $RPM_BUILD_ROOT
 %lang(fr) %{_mandir}/fr/man1/weechat.1*
 %lang(it) %{_mandir}/it/man1/weechat.1*
 %lang(ja) %{_mandir}/ja/man1/weechat.1*
+%lang(pl) %{_mandir}/pl/man1/weechat.1*
+%lang(ru) %{_mandir}/ru/man1/weechat.1*
+%{_iconsdir}/hicolor/*/apps/weechat.png
 
 %files common -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README
-%dir %{_libdir}/weechat
-%dir %{_libdir}/weechat/plugins
-%attr(755,root,root) %{_libdir}/weechat/plugins/alias.so*
-%attr(755,root,root) %{_libdir}/weechat/plugins/charset.so*
-%attr(755,root,root) %{_libdir}/weechat/plugins/fifo.so*
-%attr(755,root,root) %{_libdir}/weechat/plugins/irc.so*
-%attr(755,root,root) %{_libdir}/weechat/plugins/logger.so*
-%attr(755,root,root) %{_libdir}/weechat/plugins/relay.so*
-%attr(755,root,root) %{_libdir}/weechat/plugins/rmodifier.so*
-%attr(755,root,root) %{_libdir}/weechat/plugins/script.so*
-%attr(755,root,root) %{_libdir}/weechat/plugins/xfer.so*
+%doc AUTHORS.asciidoc ChangeLog.asciidoc README.asciidoc ReleaseNotes.asciidoc
+%dir %{_libdir}/%{name}
+%dir %{_libdir}/%{name}/plugins
+%attr(755,root,root) %{_libdir}/%{name}/plugins/alias.so
+%attr(755,root,root) %{_libdir}/%{name}/plugins/charset.so
+%attr(755,root,root) %{_libdir}/%{name}/plugins/exec.so
+%attr(755,root,root) %{_libdir}/%{name}/plugins/fifo.so
+%attr(755,root,root) %{_libdir}/%{name}/plugins/irc.so
+%attr(755,root,root) %{_libdir}/%{name}/plugins/javascript.so
+%attr(755,root,root) %{_libdir}/%{name}/plugins/logger.so
+%attr(755,root,root) %{_libdir}/%{name}/plugins/relay.so
+%attr(755,root,root) %{_libdir}/%{name}/plugins/script.so
+%attr(755,root,root) %{_libdir}/%{name}/plugins/trigger.so
+%attr(755,root,root) %{_libdir}/%{name}/plugins/xfer.so
 
 # addons
-%{?with_aspell:%attr(755,root,root) %{_libdir}/weechat/plugins/aspell.so*}
+%{?with_aspell:%attr(755,root,root) %{_libdir}/%{name}/plugins/aspell.so}
 
 # language bindings
-%{?with_guile:%attr(755,root,root) %{_libdir}/weechat/plugins/guile.so*}
-%{?with_lua:%attr(755,root,root) %{_libdir}/weechat/plugins/lua.so*}
-%{?with_perl:%attr(755,root,root) %{_libdir}/weechat/plugins/perl.so*}
-%{?with_python:%attr(755,root,root) %{_libdir}/weechat/plugins/python.so*}
-%{?with_ruby:%attr(755,root,root) %{_libdir}/weechat/plugins/ruby.so*}
-%{?with_tcl:%attr(755,root,root) %{_libdir}/weechat/plugins/tcl.so*}
+%{?with_guile:%attr(755,root,root) %{_libdir}/%{name}/plugins/guile.so}
+%{?with_lua:%attr(755,root,root) %{_libdir}/%{name}/plugins/lua.so}
+%{?with_perl:%attr(755,root,root) %{_libdir}/%{name}/plugins/perl.so}
+%{?with_python:%attr(755,root,root) %{_libdir}/%{name}/plugins/python.so}
+%{?with_ruby:%attr(755,root,root) %{_libdir}/%{name}/plugins/ruby.so}
+%{?with_tcl:%attr(755,root,root) %{_libdir}/%{name}/plugins/tcl.so}
 
 %if %{with doc}
 %files doc
