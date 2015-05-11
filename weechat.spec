@@ -14,6 +14,7 @@
 %bcond_without	python	# don't enable Python scripting language
 %bcond_without	ruby	# don't enable Ruby scripting language
 %bcond_without	tcl	# don't enable Tcl scripting language
+%bcond_without	js	# don't enable JavaScript scripting language (V8 engine)
 
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
@@ -39,6 +40,7 @@ BuildRequires:	ncurses-devel
 %{?with_perl:BuildRequires:	perl-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
+%{?with_js:BuildRequires:	v8-devel}
 %if %{with python}
 BuildRequires:	python-devel
 BuildRequires:	python-modules
@@ -138,7 +140,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/plugins/exec.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/fifo.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/irc.so
-%attr(755,root,root) %{_libdir}/%{name}/plugins/javascript.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/logger.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/relay.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/script.so
@@ -155,6 +156,7 @@ rm -rf $RPM_BUILD_ROOT
 %{?with_python:%attr(755,root,root) %{_libdir}/%{name}/plugins/python.so}
 %{?with_ruby:%attr(755,root,root) %{_libdir}/%{name}/plugins/ruby.so}
 %{?with_tcl:%attr(755,root,root) %{_libdir}/%{name}/plugins/tcl.so}
+%{?with_js:%attr(755,root,root) %{_libdir}/%{name}/plugins/javascript.so}
 
 %if %{with doc}
 %files doc
