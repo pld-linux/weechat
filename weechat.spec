@@ -16,11 +16,15 @@
 %bcond_without	tcl	# don't enable Tcl scripting language
 %bcond_without	js	# don't enable JavaScript scripting language (V8 engine)
 
+%ifnarch %{ix86} %{x8664} arm mips
+%undefine	with_js
+%endif
+
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
 Version:	1.2
-Release:	2
+Release:	3
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
