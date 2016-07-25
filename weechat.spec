@@ -23,12 +23,12 @@
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	1.2
-Release:	3
+Version:	1.5
+Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
-# Source0-md5:	7e561d9093af164c2ab32634ece0e0ef
+# Source0-md5:	6e4f9c2ec870aab0696c43936800d733
 Patch2:		%{name}-curses.patch
 URL:		http://www.weechat.org/
 %{?with_doc:BuildRequires:	asciidoc}
@@ -52,7 +52,7 @@ BuildRequires:	python-modules
 %endif
 BuildRequires:	rpmbuild(macros) >= 1.129
 %{?with_ruby:BuildRequires:	ruby-devel}
-BuildRequires:	tcl-devel
+%{?with_tcl:BuildRequires:	tcl-devel}
 Obsoletes:	weechat-common
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -129,6 +129,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS.asciidoc ChangeLog.asciidoc README.asciidoc ReleaseNotes.asciidoc
 %attr(755,root,root) %{_bindir}/weechat
 %{_mandir}/man1/weechat.1*
+%lang(de) %{_mandir}/cs/man1/weechat.1*
 %lang(de) %{_mandir}/de/man1/weechat.1*
 %lang(fr) %{_mandir}/fr/man1/weechat.1*
 %lang(it) %{_mandir}/it/man1/weechat.1*
@@ -166,6 +167,7 @@ rm -rf $RPM_BUILD_ROOT
 %files doc
 %defattr(644,root,root,755)
 %dir %{_docdir}/%{name}
+%lang(de) %{_docdir}/%{name}/*.cs.html
 %lang(de) %{_docdir}/%{name}/*.de.html
 %lang(en) %{_docdir}/%{name}/*.en.html
 %lang(es) %{_docdir}/%{name}/*.es.html
