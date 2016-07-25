@@ -129,7 +129,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS.asciidoc ChangeLog.asciidoc README.asciidoc ReleaseNotes.asciidoc
 %attr(755,root,root) %{_bindir}/weechat
 %{_mandir}/man1/weechat.1*
-%lang(de) %{_mandir}/cs/man1/weechat.1*
+%lang(cs) %{_mandir}/cs/man1/weechat.1*
 %lang(de) %{_mandir}/de/man1/weechat.1*
 %lang(fr) %{_mandir}/fr/man1/weechat.1*
 %lang(it) %{_mandir}/it/man1/weechat.1*
@@ -167,7 +167,7 @@ rm -rf $RPM_BUILD_ROOT
 %files doc
 %defattr(644,root,root,755)
 %dir %{_docdir}/%{name}
-%lang(de) %{_docdir}/%{name}/*.cs.html
+%lang(cs) %{_docdir}/%{name}/*.cs.html
 %lang(de) %{_docdir}/%{name}/*.de.html
 %lang(en) %{_docdir}/%{name}/*.en.html
 %lang(es) %{_docdir}/%{name}/*.es.html
