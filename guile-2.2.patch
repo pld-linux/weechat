@@ -1,0 +1,12 @@
+--- weechat-2.4/cmake/FindGuile.cmake~	2019-02-17 08:20:07.000000000 +0100
++++ weechat-2.4/cmake/FindGuile.cmake	2019-03-17 10:12:48.050206452 +0100
+@@ -34,6 +34,9 @@
+ find_package(PkgConfig)
+ if(PKG_CONFIG_FOUND)
+   pkg_search_module(GUILE guile-2.0)
++  if(NOT GUILE_FOUND)
++    pkg_search_module(GUILE guile-2.2)
++  endif()
+   if(GUILE_FOUND)
+     # check if variable "scm_install_gmp_memory_functions" exists
+     set(CMAKE_REQUIRED_INCLUDES ${GUILE_INCLUDE_DIRS})

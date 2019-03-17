@@ -23,15 +23,16 @@
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	1.5
-Release:	8
+Version:	2.4
+Release:	0.1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
-# Source0-md5:	6e4f9c2ec870aab0696c43936800d733
+# Source0-md5:	a148af9fa88a408b716139b735854ed7
+Patch0:		guile-2.2.patch
 Patch2:		%{name}-curses.patch
 URL:		http://www.weechat.org/
-%{?with_doc:BuildRequires:	asciidoc}
+%{?with_doc:BuildRequires:	asciidoctor}
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	cmake
 BuildRequires:	curl-devel
@@ -44,7 +45,6 @@ BuildRequires:	ncurses-devel
 %{?with_perl:BuildRequires:	perl-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
-%{?with_doc:BuildRequires:	source-highlight}
 %{?with_js:BuildRequires:	v8-devel}
 %if %{with python}
 BuildRequires:	python-devel
@@ -81,10 +81,8 @@ HTML documentation for weechat.
 
 %prep
 %setup -q
+%patch0 -p1
 %patch2 -p0
-
-%{__sed} -i -e 's#PYTHON_LIB=.*#PYTHON_LIB=%{_libdir}#g' configure.ac
-%{__sed} -i -e 's/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/' configure.ac
 
 %build
 install -d build
