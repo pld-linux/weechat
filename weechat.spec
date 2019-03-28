@@ -6,9 +6,9 @@
 # Features
 %bcond_without	aspell	# don't build aspell support
 %bcond_without	gnutls	# don't build gnutls support
-%bcond_without	doc	# don't build docs
+%bcond_with	doc	# don't build docs
 # Bindings
-%bcond_without	guile	# don't enable Scheme (guile) scripting language
+%bcond_with	guile	# don't enable Scheme (guile) scripting language
 %bcond_without	lua	# don't enable Lua scripting language
 %bcond_without	perl	# don't enable Perl scripting language
 %bcond_without	python	# don't enable Python scripting language
@@ -24,7 +24,7 @@ Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
 Version:	2.4
-Release:	0.1
+Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
@@ -124,8 +124,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS.asciidoc ChangeLog.asciidoc README.asciidoc ReleaseNotes.asciidoc
+%doc AUTHORS.adoc ChangeLog.adoc README.adoc ReleaseNotes.adoc
 %attr(755,root,root) %{_bindir}/weechat
+%attr(755,root,root) %{_bindir}/weechat-headless
+%if %{with doc}
 %{_mandir}/man1/weechat.1*
 %lang(cs) %{_mandir}/cs/man1/weechat.1*
 %lang(de) %{_mandir}/de/man1/weechat.1*
@@ -134,14 +136,17 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ja) %{_mandir}/ja/man1/weechat.1*
 %lang(pl) %{_mandir}/pl/man1/weechat.1*
 %lang(ru) %{_mandir}/ru/man1/weechat.1*
+%endif
 %{_iconsdir}/hicolor/*/apps/weechat.png
 
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/plugins
 %attr(755,root,root) %{_libdir}/%{name}/plugins/alias.so
+%attr(755,root,root) %{_libdir}/%{name}/plugins/buflist.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/charset.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/exec.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/fifo.so
+%attr(755,root,root) %{_libdir}/%{name}/plugins/fset.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/irc.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/logger.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/relay.so
