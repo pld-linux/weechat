@@ -106,6 +106,7 @@ cd build
 	-DENABLE_GUILE=%{?with_guile:ON}%{!?with_guile:OFF} \
 	-DENABLE_TCL=%{?with_tcl:ON}%{!?with_tcl:OFF} \
 	-DENABLE_MAN=%{?with_doc:ON}%{!?with_doc:OFF} \
+	-DENABLE_JAVASCRIPT=%{?with_js:ON}%{!?with_js:OFF} \
 	..
 
 %{__make} VERBOSE=1
