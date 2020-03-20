@@ -8,9 +8,10 @@
 %bcond_without	gnutls	# don't build gnutls support
 %bcond_with	doc	# don't build docs
 # Bindings
-%bcond_with	guile	# don't enable Scheme (guile) scripting language
+%bcond_without	guile	# don't enable Scheme (guile) scripting language
 %bcond_without	lua	# don't enable Lua scripting language
 %bcond_without	perl	# don't enable Perl scripting language
+%bcond_with	php	# don't enable PHP scripting language
 %bcond_without	python	# don't enable Python scripting language
 %bcond_without	ruby	# don't enable Ruby scripting language
 %bcond_without	tcl	# don't enable Tcl scripting language
@@ -20,21 +21,22 @@
 %undefine	with_js
 %endif
 
+%define		php_name	php%{?php_suffix}
+
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	2.4
-Release:	2
+Version:	2.7.1
+Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
-# Source0-md5:	a148af9fa88a408b716139b735854ed7
-Patch0:		guile-2.2.patch
-Patch2:		%{name}-curses.patch
+# Source0-md5:	2766e82e5500dadfcc0e2bcfdb0ec5b0
+Patch0:		%{name}-curses.patch
 URL:		http://www.weechat.org/
 %{?with_doc:BuildRequires:	asciidoctor}
 %{?with_aspell:BuildRequires:	aspell-devel}
-BuildRequires:	cmake
+BuildRequires:	cmake >= 3.0
 BuildRequires:	curl-devel
 BuildRequires:	gettext-tools
 %{?with_gnutls:BuildRequires:	gnutls-devel}
@@ -43,6 +45,7 @@ BuildRequires:	libgcrypt-devel
 %{?with_lua:BuildRequires:	lua51-devel}
 BuildRequires:	ncurses-devel
 %{?with_perl:BuildRequires:	perl-devel}
+%{?with_php:BuildRequires:	%{php_name}-devel >= 4:7}
 BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
 %{?with_js:BuildRequires:	v8-devel}
@@ -53,6 +56,8 @@ BuildRequires:	python-modules
 BuildRequires:	rpmbuild(macros) >= 1.129
 %{?with_ruby:BuildRequires:	ruby-devel}
 %{?with_tcl:BuildRequires:	tcl-devel}
+Requires(post,postun):	desktop-file-utils
+Requires(post,postun):	gtk-update-icon-cache
 Obsoletes:	weechat-common
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -81,8 +86,7 @@ HTML documentation for weechat.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch2 -p0
+%patch0 -p0
 
 %build
 install -d build
@@ -95,12 +99,13 @@ cd build
 	-DENABLE_GNUTLS=%{?with_gnutls:ON}%{!?with_gnutls:OFF} \
 	-DENABLE_DOC=%{?with_doc:ON}%{!?with_doc:OFF} \
 	-DENABLE_PERL=%{?with_perl:ON}%{!?with_perl:OFF} \
+	-DENABLE_PHP=%{?with_php:ON}%{!?with_php:OFF} \
 	-DENABLE_PYTHON=%{?with_python:ON}%{!?with_python:OFF} \
 	-DENABLE_RUBY=%{?with_ruby:ON}%{!?with_ruby:OFF} \
 	-DENABLE_LUA=%{?with_lua:ON}%{!?with_lua:OFF} \
 	-DENABLE_GUILE=%{?with_guile:ON}%{!?with_guile:OFF} \
 	-DENABLE_TCL=%{?with_tcl:ON}%{!?with_tcl:OFF} \
-	-DENABLE_MAN=ON \
+	-DENABLE_MAN=%{?with_doc:ON}%{!?with_doc:OFF} \
 	..
 
 %{__make} VERBOSE=1
@@ -122,6 +127,16 @@ rm -rf $RPM_BUILD_ROOT
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+%update_desktop_database
+%update_icon_cache hicolor
+%update_mime_database
+
+%postun
+%update_desktop_database_postun
+%update_icon_cache hicolor
+%update_mime_database
+
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS.adoc ChangeLog.adoc README.adoc ReleaseNotes.adoc
@@ -138,6 +153,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ru) %{_mandir}/ru/man1/weechat.1*
 %endif
 %{_iconsdir}/hicolor/*/apps/weechat.png
+%{_desktopdir}/%{name}.desktop
 
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/plugins
@@ -155,7 +171,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/plugins/xfer.so
 
 # addons
-%{?with_aspell:%attr(755,root,root) %{_libdir}/%{name}/plugins/aspell.so}
+%{?with_aspell:%attr(755,root,root) %{_libdir}/%{name}/plugins/spell.so}
 
 # language bindings
 %{?with_guile:%attr(755,root,root) %{_libdir}/%{name}/plugins/guile.so}
