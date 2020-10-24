@@ -27,7 +27,7 @@ Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
 Version:	2.7.1
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
@@ -42,7 +42,7 @@ BuildRequires:	gettext-tools
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_guile:BuildRequires:	guile-devel}
 BuildRequires:	libgcrypt-devel
-%{?with_lua:BuildRequires:	lua51-devel}
+%{?with_lua:BuildRequires:	lua-devel}
 BuildRequires:	ncurses-devel
 %{?with_perl:BuildRequires:	perl-devel}
 %{?with_php:BuildRequires:	%{php_name}-devel >= 4:7}
