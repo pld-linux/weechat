@@ -5,7 +5,6 @@
 # Conditional build:
 # Features
 %bcond_without	aspell	# don't build aspell support
-%bcond_without	gnutls	# don't build gnutls support
 %bcond_with	doc	# don't build docs
 # Bindings
 %bcond_without	guile	# don't enable Scheme (guile) scripting language
@@ -26,20 +25,19 @@
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	2.7.1
-Release:	2
+Version:	3.0
+Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
-# Source0-md5:	2766e82e5500dadfcc0e2bcfdb0ec5b0
-Patch0:		%{name}-curses.patch
+# Source0-md5:	32f1df27dc643c4e7b4cee25d821e7ed
 URL:		http://www.weechat.org/
 %{?with_doc:BuildRequires:	asciidoctor}
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	cmake >= 3.0
 BuildRequires:	curl-devel
 BuildRequires:	gettext-tools
-%{?with_gnutls:BuildRequires:	gnutls-devel}
+BuildRequires:	gnutls-devel
 %{?with_guile:BuildRequires:	guile-devel}
 BuildRequires:	libgcrypt-devel
 %{?with_lua:BuildRequires:	lua-devel}
@@ -50,12 +48,13 @@ BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
 %{?with_js:BuildRequires:	v8-devel}
 %if %{with python}
-BuildRequires:	python-devel
-BuildRequires:	python-modules
+BuildRequires:	python3-devel
+BuildRequires:	python3-modules
 %endif
-BuildRequires:	rpmbuild(macros) >= 1.129
-%{?with_ruby:BuildRequires:	ruby-devel}
+BuildRequires:	rpmbuild(macros) >= 1.742
+%{?with_ruby:BuildRequires:	ruby-devel >= 1:1.9}
 %{?with_tcl:BuildRequires:	tcl-devel}
+BuildRequires:	zlib-devel
 Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	gtk-update-icon-cache
 Obsoletes:	weechat-common
@@ -86,7 +85,6 @@ HTML documentation for weechat.
 
 %prep
 %setup -q
-%patch0 -p0
 
 %build
 install -d build
@@ -94,19 +92,19 @@ cd build
 %cmake \
 	-DPREFIX=%{_prefix} \
 	-DLIBDIR=%{_libdir} \
+	-DENABLE_HEADLESS=OFF \
 	-DENABLE_NCURSES=ON \
-	-DENABLE_ASPELL=%{?with_aspell:ON}%{!?with_aspell:OFF} \
-	-DENABLE_GNUTLS=%{?with_gnutls:ON}%{!?with_gnutls:OFF} \
-	-DENABLE_DOC=%{?with_doc:ON}%{!?with_doc:OFF} \
-	-DENABLE_PERL=%{?with_perl:ON}%{!?with_perl:OFF} \
-	-DENABLE_PHP=%{?with_php:ON}%{!?with_php:OFF} \
-	-DENABLE_PYTHON=%{?with_python:ON}%{!?with_python:OFF} \
-	-DENABLE_RUBY=%{?with_ruby:ON}%{!?with_ruby:OFF} \
-	-DENABLE_LUA=%{?with_lua:ON}%{!?with_lua:OFF} \
-	-DENABLE_GUILE=%{?with_guile:ON}%{!?with_guile:OFF} \
-	-DENABLE_TCL=%{?with_tcl:ON}%{!?with_tcl:OFF} \
-	-DENABLE_MAN=%{?with_doc:ON}%{!?with_doc:OFF} \
-	-DENABLE_JAVASCRIPT=%{?with_js:ON}%{!?with_js:OFF} \
+	%{cmake_on_off aspell ENABLE_SPELL} \
+	%{cmake_on_off doc ENABLE_DOC} \
+	%{cmake_on_off perl ENABLE_PERL} \
+	%{cmake_on_off php ENABLE_PHP} \
+	%{cmake_on_off python ENABLE_PYTHON} \
+	%{cmake_on_off ruby ENABLE_RUBY} \
+	%{cmake_on_off lua ENABLE_LUA} \
+	%{cmake_on_off guile ENABLE_GUILE} \
+	%{cmake_on_off tcl ENABLE_TCL} \
+	%{cmake_on_off doc ENABLE_MAN} \
+	%{cmake_on_off js ENABLE_JAVASCRIPT} \
 	..
 
 %{__make} VERBOSE=1
@@ -142,7 +140,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS.adoc ChangeLog.adoc README.adoc ReleaseNotes.adoc
 %attr(755,root,root) %{_bindir}/weechat
-%attr(755,root,root) %{_bindir}/weechat-headless
 %if %{with doc}
 %{_mandir}/man1/weechat.1*
 %lang(cs) %{_mandir}/cs/man1/weechat.1*
