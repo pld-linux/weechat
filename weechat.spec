@@ -5,7 +5,7 @@
 # Conditional build:
 # Features
 %bcond_without	aspell	# don't build aspell support
-%bcond_with	doc	# don't build docs
+%bcond_without	doc	# don't build docs
 # Bindings
 %bcond_without	guile	# don't enable Scheme (guile) scripting language
 %bcond_without	lua	# don't enable Lua scripting language
@@ -32,7 +32,6 @@ Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
 # Source0-md5:	32f1df27dc643c4e7b4cee25d821e7ed
 URL:		http://www.weechat.org/
-%{?with_doc:BuildRequires:	asciidoctor}
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	cmake >= 3.0
 BuildRequires:	curl-devel
@@ -45,6 +44,7 @@ BuildRequires:	ncurses-devel
 %{?with_perl:BuildRequires:	perl-devel}
 %{?with_php:BuildRequires:	%{php_name}-devel >= 4:7}
 BuildRequires:	pkgconfig
+%{?with_doc:BuildRequires:	ruby-asciidoctor}
 BuildRequires:	sed >= 4.0
 %{?with_js:BuildRequires:	v8-devel}
 %if %{with python}
