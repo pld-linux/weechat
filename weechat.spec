@@ -57,6 +57,7 @@ BuildRequires:	rpmbuild(macros) >= 1.752
 BuildRequires:	zlib-devel
 Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	gtk-update-icon-cache
+Suggests:	%{name}-plugin-irc
 Obsoletes:	weechat-common
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -88,6 +89,14 @@ Requires:	%{name} = %{version}-%{release}
 
 %description plugin-guile
 Guile scripting plugin for weechat.
+
+%package plugin-irc
+Summary:	IRC chat protocol plugin for weechat
+Group:		Applications/Communications
+Requires:	%{name} = %{version}-%{release}
+
+%description plugin-irc
+IRC chat protocol plugin for weechat.
 
 %package plugin-javascript
 Summary:	JavaScript scripting plugin for weechat
@@ -121,6 +130,15 @@ Requires:	%{name} = %{version}-%{release}
 %description plugin-python
 Python scripting plugin for weechat.
 
+%package plugin-relay
+Summary:	Relay data via network plugin for weechat
+Group:		Applications/Communications
+Requires:	%{name} = %{version}-%{release}
+
+%description plugin-relay
+Relay data via network plugin for weechat used by alternative
+frontends.
+
 %package plugin-ruby
 Summary:	Ruby scripting plugin for weechat
 Group:		Applications/Communications
@@ -144,6 +162,14 @@ Requires:	%{name} = %{version}-%{release}
 
 %description plugin-tcl
 Tcl scripting plugin for weechat.
+
+%package plugin-xfer
+Summary:	File transfer and direct chat plugin for weechat
+Group:		Applications/Communications
+Requires:	%{name} = %{version}-%{release}
+
+%description plugin-xfer
+File transfer and direct chat plugin for weechat.
 
 %prep
 %setup -q
@@ -223,12 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/plugins/exec.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/fifo.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/fset.so
-%attr(755,root,root) %{_libdir}/%{name}/plugins/irc.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/logger.so
-%attr(755,root,root) %{_libdir}/%{name}/plugins/relay.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/script.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/trigger.so
-%attr(755,root,root) %{_libdir}/%{name}/plugins/xfer.so
 
 %if %{with doc}
 %files doc
@@ -250,6 +273,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/plugins/guile.so
 %endif
+
+%files plugin-irc
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/plugins/irc.so
 
 %if %{with js}
 %files plugin-javascript
@@ -275,6 +302,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/plugins/python.so
 %endif
 
+%files plugin-relay
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/plugins/relay.so
+
 %if %{with ruby}
 %files plugin-ruby
 %defattr(644,root,root,755)
@@ -292,3 +323,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/plugins/tcl.so
 %endif
+
+%files plugin-xfer
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/plugins/xfer.so
