@@ -51,7 +51,7 @@ BuildRequires:	sed >= 4.0
 BuildRequires:	python3-devel
 BuildRequires:	python3-modules
 %endif
-BuildRequires:	rpmbuild(macros) >= 1.742
+BuildRequires:	rpmbuild(macros) >= 1.752
 %{?with_ruby:BuildRequires:	ruby-devel >= 1:1.9}
 %{?with_tcl:BuildRequires:	tcl-devel}
 BuildRequires:	zlib-devel
@@ -76,9 +76,7 @@ pomocą skryptów.
 %package doc
 Summary:	Manual for weechat
 Group:		Documentation
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
+%{?noarchpackage}
 
 %description doc
 HTML documentation for weechat.
