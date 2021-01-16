@@ -45,16 +45,16 @@ BuildRequires:	ncurses-devel
 %{?with_perl:BuildRequires:	perl-devel}
 %{?with_php:BuildRequires:	%{php_name}-devel >= 4:7}
 BuildRequires:	pkgconfig
-%{?with_doc:BuildRequires:	ruby-asciidoctor}
-BuildRequires:	sed >= 4.0
-%{?with_js:BuildRequires:	v8-devel}
 %if %{with python}
 BuildRequires:	python3-devel
 BuildRequires:	python3-modules
 %endif
 BuildRequires:	rpmbuild(macros) >= 1.752
+%{?with_doc:BuildRequires:	ruby-asciidoctor}
 %{?with_ruby:BuildRequires:	ruby-devel >= 1:1.9}
+BuildRequires:	sed >= 4.0
 %{?with_tcl:BuildRequires:	tcl-devel}
+%{?with_js:BuildRequires:	v8-devel}
 BuildRequires:	zlib-devel
 Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	gtk-update-icon-cache
