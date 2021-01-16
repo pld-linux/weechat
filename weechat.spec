@@ -31,6 +31,7 @@ License:	GPL v3+
 Group:		Applications/Communications
 Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
 # Source0-md5:	32f1df27dc643c4e7b4cee25d821e7ed
+Patch0:		headless-man.patch
 URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	cmake >= 3.0
@@ -173,6 +174,7 @@ File transfer and direct chat plugin for weechat.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 install -d build
