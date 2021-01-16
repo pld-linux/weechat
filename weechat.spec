@@ -29,8 +29,8 @@ Version:	3.0
 Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
-Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.gz
-# Source0-md5:	32f1df27dc643c4e7b4cee25d821e7ed
+Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.xz
+# Source0-md5:	006fbdba0115cbedc0013c7ff9007438
 Patch0:		headless-man.patch
 URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
@@ -53,8 +53,10 @@ BuildRequires:	rpmbuild(macros) >= 1.752
 %{?with_doc:BuildRequires:	ruby-asciidoctor}
 %{?with_ruby:BuildRequires:	ruby-devel >= 1:1.9}
 BuildRequires:	sed >= 4.0
+BuildRequires:	tar >= 1:1.22
 %{?with_tcl:BuildRequires:	tcl-devel}
 %{?with_js:BuildRequires:	v8-devel}
+BuildRequires:	xz
 BuildRequires:	zlib-devel
 Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	gtk-update-icon-cache
