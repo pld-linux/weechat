@@ -83,6 +83,70 @@ BuildArch:	noarch
 %description doc
 HTML documentation for weechat.
 
+%package plugin-guile
+Summary:	Guile scripting plugin for weechat
+Group:		Applications/Communications
+Requires:	%{name} = %{version}-%{release}
+
+%description plugin-guile
+Guile scripting plugin for weechat.
+
+%package plugin-javascript
+Summary:	JavaScript scripting plugin for weechat
+Group:		Applications/Communications
+Requires:	%{name} = %{version}-%{release}
+
+%description plugin-javascript
+JavaScript scripting plugin for weechat.
+
+%package plugin-lua
+Summary:	Lua scripting plugin for weechat
+Group:		Applications/Communications
+Requires:	%{name} = %{version}-%{release}
+
+%description plugin-lua
+Lua scripting plugin for weechat.
+
+%package plugin-perl
+Summary:	Perl scripting plugin for weechat
+Group:		Applications/Communications
+Requires:	%{name} = %{version}-%{release}
+
+%description plugin-perl
+Perl scripting plugin for weechat.
+
+%package plugin-python
+Summary:	Python scripting plugin for weechat
+Group:		Applications/Communications
+Requires:	%{name} = %{version}-%{release}
+
+%description plugin-python
+Python scripting plugin for weechat.
+
+%package plugin-ruby
+Summary:	Ruby scripting plugin for weechat
+Group:		Applications/Communications
+Requires:	%{name} = %{version}-%{release}
+
+%description plugin-ruby
+Ruby scripting plugin for weechat.
+
+%package plugin-spell
+Summary:	Spell checking plugin for weechat
+Group:		Applications/Communications
+Requires:	%{name} = %{version}-%{release}
+
+%description plugin-spell
+Spell checking plugin for weechat.
+
+%package plugin-tcl
+Summary:	Tcl scripting plugin for weechat
+Group:		Applications/Communications
+Requires:	%{name} = %{version}-%{release}
+
+%description plugin-tcl
+Tcl scripting plugin for weechat.
+
 %prep
 %setup -q
 
@@ -168,18 +232,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/plugins/trigger.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/xfer.so
 
-# addons
-%{?with_aspell:%attr(755,root,root) %{_libdir}/%{name}/plugins/spell.so}
-
-# language bindings
-%{?with_guile:%attr(755,root,root) %{_libdir}/%{name}/plugins/guile.so}
-%{?with_lua:%attr(755,root,root) %{_libdir}/%{name}/plugins/lua.so}
-%{?with_perl:%attr(755,root,root) %{_libdir}/%{name}/plugins/perl.so}
-%{?with_python:%attr(755,root,root) %{_libdir}/%{name}/plugins/python.so}
-%{?with_ruby:%attr(755,root,root) %{_libdir}/%{name}/plugins/ruby.so}
-%{?with_tcl:%attr(755,root,root) %{_libdir}/%{name}/plugins/tcl.so}
-%{?with_js:%attr(755,root,root) %{_libdir}/%{name}/plugins/javascript.so}
-
 %if %{with doc}
 %files doc
 %defattr(644,root,root,755)
@@ -193,4 +245,52 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ja) %{_docdir}/%{name}/*.ja.html
 %lang(pl) %{_docdir}/%{name}/*.pl.html
 %lang(ru) %{_docdir}/%{name}/*.ru.html
+%endif
+
+%if %{with guile}
+%files plugin-guile
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/plugins/guile.so
+%endif
+
+%if %{with js}
+%files plugin-javascript
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/plugins/javascript.so
+%endif
+
+%if %{with lua}
+%files plugin-lua
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/plugins/lua.so
+%endif
+
+%if %{with perl}
+%files plugin-perl
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/plugins/perl.so
+%endif
+
+%if %{with python}
+%files plugin-python
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/plugins/python.so
+%endif
+
+%if %{with ruby}
+%files plugin-ruby
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/plugins/ruby.so
+%endif
+
+%if %{with aspell}
+%files plugin-spell
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/plugins/spell.so
+%endif
+
+%if %{with tcl}
+%files plugin-tcl
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/plugins/tcl.so
 %endif
