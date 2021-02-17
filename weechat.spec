@@ -29,7 +29,7 @@ Version:	3.0.1
 Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
-Source0:	http://www.weechat.org/files/src/%{name}-%{version}.tar.xz
+Source0:	https://www.weechat.org/files/src/%{name}-%{version}.tar.xz
 # Source0-md5:	56cc7312aea9cb5cccab39211106316f
 Patch0:		headless-man.patch
 URL:		http://www.weechat.org/
