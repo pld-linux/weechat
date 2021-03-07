@@ -80,7 +80,7 @@ pomocą skryptów.
 %package doc
 Summary:	Manual for weechat
 Group:		Documentation
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description doc
 HTML documentation for weechat.
