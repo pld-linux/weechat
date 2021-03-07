@@ -25,13 +25,12 @@
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	3.0.1
-Release:	2
+Version:	3.1
+Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	https://www.weechat.org/files/src/%{name}-%{version}.tar.xz
-# Source0-md5:	56cc7312aea9cb5cccab39211106316f
-Patch0:		headless-man.patch
+# Source0-md5:	4fa121eab508d8fca49f9a2b7b86b1a1
 URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	cmake >= 3.0
@@ -176,7 +175,6 @@ File transfer and direct chat plugin for weechat.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 install -d build
