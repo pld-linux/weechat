@@ -26,7 +26,7 @@ Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
 Version:	3.3
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	https://www.weechat.org/files/src/%{name}-%{version}.tar.xz
@@ -48,6 +48,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	python3-devel
 BuildRequires:	python3-modules
 %endif
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.752
 %{?with_doc:BuildRequires:	ruby-asciidoctor}
 %{?with_ruby:BuildRequires:	ruby-devel >= 1:1.9}
@@ -58,7 +59,7 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 BuildRequires:	zlib-devel
 Requires(post,postun):	desktop-file-utils
-Requires(post,postun):	gtk-update-icon-cache
+Suggests:	%{name}-icons
 Suggests:	%{name}-plugin-irc
 Obsoletes:	weechat-common
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -83,6 +84,15 @@ BuildArch:	noarch
 
 %description doc
 HTML documentation for weechat.
+
+%package icons
+Summary:	Icon files for weechat
+Group:		Applications
+BuildArch:	noarch
+Requires(post,postun):	gtk-update-icon-cache
+
+%description icons
+Icon files for weechat.
 
 %package plugin-guile
 Summary:	Guile scripting plugin for weechat
@@ -218,13 +228,17 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 %update_desktop_database
-%update_icon_cache hicolor
 %update_mime_database
+
+%post icons
+%update_icon_cache hicolor
 
 %postun
 %update_desktop_database_postun
-%update_icon_cache hicolor
 %update_mime_database
+
+%postun icons
+%update_icon_cache hicolor
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
@@ -240,7 +254,6 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pl) %{_mandir}/pl/man1/weechat.1*
 %lang(ru) %{_mandir}/ru/man1/weechat.1*
 %endif
-%{_iconsdir}/hicolor/*/apps/weechat.png
 %{_desktopdir}/%{name}.desktop
 
 %dir %{_libdir}/%{name}
@@ -255,6 +268,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/plugins/script.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/trigger.so
 %attr(755,root,root) %{_libdir}/%{name}/plugins/typing.so
+
+%files icons
+%defattr(644,root,root,755)
+%{_iconsdir}/hicolor/*/apps/weechat.png
 
 %if %{with doc}
 %files doc
