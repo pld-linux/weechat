@@ -62,7 +62,7 @@ BuildRequires:	zstd-devel
 Requires(post,postun):	desktop-file-utils
 Suggests:	%{name}-icons
 Suggests:	%{name}-plugin-irc
-Obsoletes:	weechat-common
+Obsoletes:	weechat-common < 1.2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		skip_post_check_so	ruby.so.0.0.0
