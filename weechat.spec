@@ -25,12 +25,12 @@
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	3.8
-Release:	2
+Version:	4.0.0
+Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	https://www.weechat.org/files/src/%{name}-%{version}.tar.xz
-# Source0-md5:	6eb1d4f64f9c7e385fcabb2098ef40a9
+# Source0-md5:	d372a76f52b212623b96bfddd63b3d68
 URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	cmake >= 3.0
@@ -193,7 +193,8 @@ cd build
 %cmake \
 	-DPREFIX=%{_prefix} \
 	-DLIBDIR=%{_libdir} \
-	-DENABLE_HEADLESS=OFF \
+	-DENABLE_HEADLESS=ON \
+	-DENABLE_DOC_INCOMPLETE=ON \
 	-DENABLE_NCURSES=ON \
 	%{cmake_on_off aspell ENABLE_SPELL} \
 	%{cmake_on_off doc ENABLE_DOC} \
@@ -245,15 +246,26 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS.adoc ChangeLog.adoc README.adoc ReleaseNotes.adoc
 %attr(755,root,root) %{_bindir}/weechat
+%attr(755,root,root) %{_bindir}/weechat-headless
 %if %{with doc}
 %{_mandir}/man1/weechat.1*
+%{_mandir}/man1/weechat-headless.1*
 %lang(cs) %{_mandir}/cs/man1/weechat.1*
+%lang(cs) %{_mandir}/cs/man1/weechat-headless.1*
 %lang(de) %{_mandir}/de/man1/weechat.1*
+%lang(de) %{_mandir}/de/man1/weechat-headless.1*
 %lang(fr) %{_mandir}/fr/man1/weechat.1*
+%lang(fr) %{_mandir}/fr/man1/weechat-headless.1*
 %lang(it) %{_mandir}/it/man1/weechat.1*
+%lang(it) %{_mandir}/it/man1/weechat-headless.1*
 %lang(ja) %{_mandir}/ja/man1/weechat.1*
+%lang(ja) %{_mandir}/ja/man1/weechat-headless.1*
 %lang(pl) %{_mandir}/pl/man1/weechat.1*
+%lang(pl) %{_mandir}/pl/man1/weechat-headless.1*
 %lang(ru) %{_mandir}/ru/man1/weechat.1*
+%lang(ru) %{_mandir}/ru/man1/weechat-headless.1*
+%lang(sr) %{_mandir}/sr/man1/weechat.1*
+%lang(sr) %{_mandir}/sr/man1/weechat-headless.1*
 %endif
 %{_desktopdir}/%{name}.desktop
 
@@ -287,6 +299,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ja) %{_docdir}/%{name}/*.ja.html
 %lang(pl) %{_docdir}/%{name}/*.pl.html
 %lang(ru) %{_docdir}/%{name}/*.ru.html
+%lang(sr) %{_docdir}/%{name}/*.sr.html
 %endif
 
 %if %{with guile}
