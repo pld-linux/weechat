@@ -26,7 +26,7 @@ Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
 Version:	4.0.4
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	https://www.weechat.org/files/src/%{name}-%{version}.tar.xz
@@ -216,6 +216,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+install -d $RPM_BUILD_ROOT%{_datadir}/weechat/{guile,javascript,lua,perl,python,ruby,tcl}
+
 # symlink to "weechat"
 %{__rm} $RPM_BUILD_ROOT%{_bindir}/weechat-curses
 
@@ -247,6 +249,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS.adoc ChangeLog.adoc README.adoc ReleaseNotes.adoc
 %attr(755,root,root) %{_bindir}/weechat
 %attr(755,root,root) %{_bindir}/weechat-headless
+%dir %{_datadir}/weechat
 %if %{with doc}
 %{_mandir}/man1/weechat.1*
 %{_mandir}/man1/weechat-headless.1*
@@ -306,6 +309,7 @@ rm -rf $RPM_BUILD_ROOT
 %files plugin-guile
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/plugins/guile.so
+%dir %{_datadir}/weechat/guile
 %endif
 
 %files plugin-irc
@@ -316,24 +320,28 @@ rm -rf $RPM_BUILD_ROOT
 %files plugin-javascript
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/plugins/javascript.so
+%dir %{_datadir}/weechat/javascript
 %endif
 
 %if %{with lua}
 %files plugin-lua
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/plugins/lua.so
+%dir %{_datadir}/weechat/lua
 %endif
 
 %if %{with perl}
 %files plugin-perl
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/plugins/perl.so
+%dir %{_datadir}/weechat/perl
 %endif
 
 %if %{with python}
 %files plugin-python
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/plugins/python.so
+%dir %{_datadir}/weechat/python
 %endif
 
 %files plugin-relay
@@ -344,6 +352,7 @@ rm -rf $RPM_BUILD_ROOT
 %files plugin-ruby
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/plugins/ruby.so
+%dir %{_datadir}/weechat/ruby
 %endif
 
 %if %{with aspell}
@@ -356,6 +365,7 @@ rm -rf $RPM_BUILD_ROOT
 %files plugin-tcl
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/plugins/tcl.so
+%dir %{_datadir}/weechat/tcl
 %endif
 
 %files plugin-xfer
