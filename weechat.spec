@@ -25,12 +25,12 @@
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	4.3.2
+Version:	4.3.3
 Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	https://www.weechat.org/files/src/%{name}-%{version}.tar.xz
-# Source0-md5:	fea30ea7f8e2742dafa710237700a79e
+# Source0-md5:	26cb0fec1169527a36496cf807e861c6
 URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	cjson-devel
