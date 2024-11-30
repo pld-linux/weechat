@@ -25,16 +25,16 @@
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	4.4.3
+Version:	4.4.4
 Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	https://www.weechat.org/files/src/%{name}-%{version}.tar.xz
-# Source0-md5:	111916f164bc39cc09493e5a2e6705bf
+# Source0-md5:	0a474ffdb338b5ab1fa1f1dcc59fff8d
 URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	cjson-devel
-BuildRequires:	cmake >= 3.5
+BuildRequires:	cmake >= 3.18
 BuildRequires:	curl-devel
 BuildRequires:	gettext-tools
 BuildRequires:	gnutls-devel
