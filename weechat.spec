@@ -31,6 +31,7 @@ License:	GPL v3+
 Group:		Applications/Communications
 Source0:	https://www.weechat.org/files/src/%{name}-%{version}.tar.xz
 # Source0-md5:	048015fd70aeb13256be909e9d1ec36d
+Patch0:		ruby-gcc15.patch
 URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	cjson-devel
@@ -187,6 +188,7 @@ File transfer and direct chat plugin for weechat.
 
 %prep
 %setup -q
+%patch -P0 -p1
 
 %build
 install -d build
