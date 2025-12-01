@@ -36,12 +36,12 @@ URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	cjson-devel
 BuildRequires:	cmake >= 3.18
-BuildRequires:	curl-devel
+BuildRequires:	curl-devel >= 7.47.0
 BuildRequires:	gettext-tools
-BuildRequires:	gnutls-devel
+BuildRequires:	gnutls-devel >= 3.3.0
 %{?with_guile:BuildRequires:	guile-devel}
 BuildRequires:	libgcrypt-devel
-%{?with_lua:BuildRequires:	lua-devel}
+%{?with_lua:BuildRequires:	lua-devel >= 5.0}
 BuildRequires:	ncurses-devel
 %{?with_perl:BuildRequires:	perl-devel}
 %{?with_php:BuildRequires:	%{php_name}-devel >= 4:7}
@@ -62,6 +62,8 @@ BuildRequires:	xz
 BuildRequires:	zlib-devel
 BuildRequires:	zstd-devel
 Requires(post,postun):	desktop-file-utils
+Requires:	curl-libs >= 7.47.0
+Requires:	gnutls-libs >= 3.3.0
 Suggests:	%{name}-icons
 Suggests:	%{name}-plugin-irc
 Obsoletes:	weechat-common < 1.2
@@ -109,6 +111,7 @@ Guile scripting plugin for weechat.
 Summary:	IRC chat protocol plugin for weechat
 Group:		Applications/Communications
 Requires:	%{name} = %{version}-%{release}
+Requires:	gnutls-libs >= 3.3.0
 
 %description plugin-irc
 IRC chat protocol plugin for weechat.
@@ -149,6 +152,7 @@ Python scripting plugin for weechat.
 Summary:	Relay data via network plugin for weechat
 Group:		Applications/Communications
 Requires:	%{name} = %{version}-%{release}
+Requires:	gnutls-libs >= 3.3.0
 
 %description plugin-relay
 Relay data via network plugin for weechat used by alternative
