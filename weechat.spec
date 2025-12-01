@@ -25,23 +25,23 @@
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	4.7.2
+Version:	4.8.0
 Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	https://www.weechat.org/files/src/%{name}-%{version}.tar.xz
-# Source0-md5:	d028f2050ea67b04ff29cc3a7ca35eff
+# Source0-md5:	5b1804ba3e05b5593b2af17ab28a30ef
 Patch0:		ruby-gcc15.patch
 URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
 BuildRequires:	cjson-devel
 BuildRequires:	cmake >= 3.18
-BuildRequires:	curl-devel >= 7.47.0
+BuildRequires:	curl-devel >= 7.68.0
 BuildRequires:	gettext-tools
-BuildRequires:	gnutls-devel >= 3.3.0
+BuildRequires:	gnutls-devel >= 3.6.3
 %{?with_guile:BuildRequires:	guile-devel}
-BuildRequires:	libgcrypt-devel
-%{?with_lua:BuildRequires:	lua-devel >= 5.0}
+BuildRequires:	libgcrypt-devel >= 1.8.0
+%{?with_lua:BuildRequires:	lua-devel >= 5.3}
 BuildRequires:	ncurses-devel
 %{?with_perl:BuildRequires:	perl-devel}
 %{?with_php:BuildRequires:	%{php_name}-devel >= 4:7}
@@ -62,8 +62,9 @@ BuildRequires:	xz
 BuildRequires:	zlib-devel
 BuildRequires:	zstd-devel
 Requires(post,postun):	desktop-file-utils
-Requires:	curl-libs >= 7.47.0
-Requires:	gnutls-libs >= 3.3.0
+Requires:	curl-libs >= 7.68.0
+Requires:	gnutls-libs >= 3.6.3
+Requires:	libgcrypt >= 1.8.0
 Suggests:	%{name}-icons
 Suggests:	%{name}-plugin-irc
 Obsoletes:	weechat-common < 1.2
@@ -111,7 +112,8 @@ Guile scripting plugin for weechat.
 Summary:	IRC chat protocol plugin for weechat
 Group:		Applications/Communications
 Requires:	%{name} = %{version}-%{release}
-Requires:	gnutls-libs >= 3.3.0
+Requires:	gnutls-libs >= 3.6.3
+Requires:	libgcrypt >= 1.8.0
 
 %description plugin-irc
 IRC chat protocol plugin for weechat.
@@ -152,7 +154,8 @@ Python scripting plugin for weechat.
 Summary:	Relay data via network plugin for weechat
 Group:		Applications/Communications
 Requires:	%{name} = %{version}-%{release}
-Requires:	gnutls-libs >= 3.3.0
+Requires:	gnutls-libs >= 3.6.3
+Requires:	libgcrypt >= 1.8.0
 
 %description plugin-relay
 Relay data via network plugin for weechat used by alternative
@@ -186,6 +189,7 @@ Tcl scripting plugin for weechat.
 Summary:	File transfer and direct chat plugin for weechat
 Group:		Applications/Communications
 Requires:	%{name} = %{version}-%{release}
+Requires:	libgcrypt >= 1.8.0
 
 %description plugin-xfer
 File transfer and direct chat plugin for weechat.
