@@ -202,7 +202,6 @@ File transfer and direct chat plugin for weechat.
 install -d build
 cd build
 %cmake \
-	-DPREFIX=%{_prefix} \
 	-DLIBDIR=%{_libdir} \
 	-DENABLE_HEADLESS=ON \
 	-DENABLE_DOC_INCOMPLETE=ON \
