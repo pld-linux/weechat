@@ -25,12 +25,12 @@
 Summary:	WeeChat - fast and light chat environment
 Summary(pl.UTF-8):	WeeChat - szybkie i lekkie środowisko do rozmów
 Name:		weechat
-Version:	4.9.5
+Version:	4.10.0
 Release:	1
 License:	GPL v3+
 Group:		Applications/Communications
 Source0:	https://www.weechat.org/files/src/%{name}-%{version}.tar.xz
-# Source0-md5:	b7600d2f8587f2fc647dee1cc937413f
+# Source0-md5:	0eb16179ee11405de517d89e90954b2e
 Patch0:		ruby-gcc15.patch
 URL:		http://www.weechat.org/
 %{?with_aspell:BuildRequires:	aspell-devel}
@@ -50,6 +50,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	python3-devel
 BuildRequires:	python3-modules
 %endif
+%{?with_doc:BuildRequires:	python3-pygments}
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.752
 %{?with_doc:BuildRequires:	ruby-asciidoctor}
@@ -60,11 +61,12 @@ BuildRequires:	tar >= 1:1.22
 %{?with_js:BuildRequires:	v8-devel}
 BuildRequires:	xz
 BuildRequires:	zlib-devel
-BuildRequires:	zstd-devel
+BuildRequires:	zstd-devel >= 1.4.0
 Requires(post,postun):	desktop-file-utils
 Requires:	curl-libs >= 7.68.0
 Requires:	gnutls-libs >= 3.6.3
 Requires:	libgcrypt >= 1.8.0
+Requires:	zstd >= 1.4.0
 Suggests:	%{name}-icons
 Suggests:	%{name}-plugin-irc
 Obsoletes:	weechat-common < 1.2
